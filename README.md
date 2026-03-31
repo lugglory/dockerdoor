@@ -6,10 +6,19 @@
 
 ## 설치
 
-`setup.bat`을 실행하면 `dockerdoor.exe`가 있는 디렉터리를 사용자 PATH에 등록한다.
+### 사전 요건
+
+- [Go](https://go.dev/dl/) 1.22 이상
+- Docker Desktop (실행 중이어야 함)
+
+### PATH 등록
+
+저장소를 클론한 뒤 `setup.bat`을 실행한다.
 
 ```
 setup.bat
 ```
+
+Go가 설치되어 있으면 자동으로 빌드 후 PATH에 등록한다.
 
 이후 터미널을 재시작하면 어디서든 `dockerdoor`를 실행할 수 있다.
