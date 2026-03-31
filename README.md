@@ -22,3 +22,5 @@ setup.bat
 Go가 설치되어 있으면 자동으로 빌드 후 PATH에 등록한다.
 
 이후 터미널을 재시작하면 어디서든 `dockerdoor`를 실행할 수 있다.
+
+`claudo` bat script 추가: `claudo [model]`을 통해 claude code까지 한 번에 실행할 수 있다.
