@@ -167,7 +167,16 @@ func main() {
 		shell = "sh"
 	}
 
-	execCmd := exec.Command("docker", "exec", "-it", "-w", containerPath, containerID, shell, "-l")
+	var execCmd *exec.Cmd
+	extraArgs := os.Args[1:]
+	if len(extraArgs) > 0 {
+		// Run the given command via login shell so PATH and profile are loaded
+		cmdLine := shellJoin(extraArgs)
+		execCmd = exec.Command("docker", "exec", "-it", "-w", containerPath, containerID, shell, "-l", "-c", cmdLine)
+	} else {
+		// Interactive shell
+		execCmd = exec.Command("docker", "exec", "-it", "-w", containerPath, containerID, shell, "-l")
+	}
 	execCmd.Stdin = os.Stdin
 	execCmd.Stdout = os.Stdout
 	execCmd.Stderr = os.Stderr
@@ -177,6 +186,17 @@ func main() {
 		}
 		fatal("exec failed: %v", err)
 	}
+}
+
+// shellJoin joins args into a single shell command string.
+// Each argument is wrapped in single quotes with internal single quotes escaped,
+// so all shell metacharacters ($, *, ?, |, &, etc.) are treated literally.
+func shellJoin(args []string) string {
+	parts := make([]string, len(args))
+	for i, a := range args {
+		parts[i] = "'" + strings.ReplaceAll(a, "'", "'\\''") + "'"
+	}
+	return strings.Join(parts, " ")
 }
 
 func fatal(format string, args ...any) {
