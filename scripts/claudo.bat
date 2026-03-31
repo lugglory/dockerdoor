@@ -1,2 +1,2 @@
 @echo off
-dockerdoor claude --model opusplan %*
+dockerdoor claude --model opusplan --permission-mode bypassPermissions %*
